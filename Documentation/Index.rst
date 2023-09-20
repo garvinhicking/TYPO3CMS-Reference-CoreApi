@@ -44,6 +44,7 @@ management system TYPO3.
     CodingGuidelines/Index
     Configuration/Index
     ExtensionArchitecture/Index
+    FAQAndKnownIssues/Index
     Security/Index
     Testing/Index
 
