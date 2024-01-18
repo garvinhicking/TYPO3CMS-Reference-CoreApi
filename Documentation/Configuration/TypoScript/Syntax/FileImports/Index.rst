@@ -29,6 +29,24 @@ imports with :typoscript:`@import`.
 Neither :typoscript:`@import` nor :typoscript:`<INCLUDE_TYPOSCRIPT:` are allowed
 to be placed within code blocks.
 
+..  versionchanged:: 12.2
+    :typoscript:`@import` and :typoscript:`<INCLUDE_TYPOSCRIPT:` basically
+    break any curly braces level, resetting current scope to top level. While
+    inclusion of files has never been documented to be valid within braces
+    assignments, it still worked until TYPO3 v11. This is now disallowed and
+    must not be used anymore. For example, a construct like this is **invalid**:
+
+    ..  code-block:: typoscript
+
+        page = PAGE
+        page {
+          # This import won't work!
+          @import 'EXT:my_extension/Configuration/TypoScript/bar.typoscript'
+          20 = TEXT
+          20.value = bar
+        }
+
+
 @import
 =======
 
@@ -46,7 +64,7 @@ for more details.
 The following rules apply:
 
 * Multiple files are imported in alphabetical order.
-  If a special loading order is desired it is common to prefix the filenames with 
+  If a special loading order is desired it is common to prefix the filenames with
   numbers that increase for files that shall be loaded later.
 
 * Recursion is allowed: Imported files can have :typoscript:`@import` statements.
@@ -149,6 +167,11 @@ More details:
   including subdirectories.
 
   Files are included in alphabetical. Also files are included first, then directories.
+
+  .. attention::
+     :typoscript:`<INCLUDE_TYPOSCRIPT:` with :typoscript:`DIR:` and relative
+     paths always assumes the web root directory as base directory.
+     (Before TYPO3 v12 it was relative to the file holding the include statement.)
 
 * Keyword "extensions":
 

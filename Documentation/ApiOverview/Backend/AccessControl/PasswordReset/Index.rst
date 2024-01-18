@@ -27,6 +27,15 @@ is entered correctly, it will be updated for the user and they can log in.
     The new password that the user specifies must comply with the configured
     :ref:`password policy <password-policies>` for the backend.
 
+..  versionadded:: 12.3
+    The username of the backend user is displayed in the password recovery
+    email alongside the reset link.
+
+..  versionadded:: 13.0
+    A new array variable :html:`{userData}` has been added to the password
+    recovery :php:`FluidEmail` object. It contains the values of all fields
+    belonging to the affected frontend user.
+
 
 Notes on security
 =================
@@ -41,6 +50,21 @@ Notes on security
 *   When a user has logged in successfully (for example, because they remembered
     the password), the token is removed from the database, effectively
     invalidating all existing email links.
+
+Implications of displaying the username in the email
+----------------------------------------------------
+
+*   A third-party gaining access to the email account has all information needed
+    to log in into the TYPO3 backend and potentially cause damage to the
+    website.
+*   Without the username a third-party could only reset the password of the
+    TYPO3 backend user, but not log in, if the username is different from the
+    email address.
+*   It is also possible to override the :file:`ResetRequested` email templates
+    to remove the username and customize the result.
+*   It is highly recommend to protect backend accounts using
+    :ref:`Multi-factor authentication <multi-factor-authentication>`.
+
 
 .. index:: Backend; passwordReset
 .. index:: Backend; passwordResetForAdmins

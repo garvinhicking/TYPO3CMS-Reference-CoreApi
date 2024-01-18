@@ -88,6 +88,9 @@ where available:
 Access ContentObjectRenderer
 ----------------------------
 
+..  versionchanged:: 13.0
+    This property has been marked as read-only.
+
 Access the :php:`\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer`
 (often referred to as "cObj"):
 
@@ -116,6 +119,9 @@ a non-Extbase plugin) use setter injection:
 Access current page ID
 ----------------------
 
+..  versionchanged:: 13.0
+    This property has been marked as read-only.
+
 Access the current page ID:
 
 .. code-block:: php
@@ -123,7 +129,7 @@ Access the current page ID:
     // !!! discouraged
     $pageId = $GLOBALS['TSFE']->id;
 
-Can be done using the
+Instead, the current page ID can be retrieved using the
 :ref:`routing request attribute <typo3-request-attribute-routing>`:
 
 ..  code-block:: php
@@ -131,77 +137,39 @@ Can be done using the
     $pageArguments = $request->getAttribute('routing');
     $pageId = $pageArguments->getPageId();
 
-.. _tsfe_language:
+..  versionadded:: 13.0
 
-Access language settings
-------------------------
-
-In order to get current language settings, such as the current language ID,
-obtain :php:`\TYPO3\CMS\Core\Site\Entity\SiteLanguage` object from the
-:ref:`language request attribute <typo3-request-attribute-language>`:
+Or, alternatively with the :ref:`frontend.page.information request attribute
+<typo3-request-attribute-frontend-page-information>`:
 
 ..  code-block:: php
 
-    // !!! outdated
-    $languageId = $GLOBALS['TSFE']->sys_language_uid;
+    $pageInformation = $request->getAttribute('frontend.page.information');
+    $pageId = $pageInformation->getId();
 
-..  code-block:: php
-
-    /** @var \TYPO3\CMS\Core\Site\Entity\SiteLanguage $language */
-    $language = $request->getAttribute('language');
-    $languageId = $language->getLanguageId();
-
-
-If the request is not available, accessing language settings
-can be done using the :ref:`language aspect <context_api_aspects_language>`.
-
-Get the language of the current page as integer:
-
-..  code-block:: php
-
-    $languageId = (int) $context->getPropertyFromAspect('language', 'id');
 
 ..  _tsfe_frontendUser:
 
 Access frontend user information
 --------------------------------
 
-..  code-block:: php
+..  versionchanged:: 13.0
+    The variable :php:`$GLOBALS['TSFE']->fe_user` has been removed with TYPO3
+    v13. :ref:`Migration <t3tsref:appendix-include-tsfe-feuser>`.
 
-    // !!! discouraged
-    $feUser = $GLOBALS['TSFE']->fe_user;
-
-Use the
-:ref:`frontend.user request attribute <typo3-request-attribute-frontend-user>`:
-
-..  code-block:: php
-
-    /** @var \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication $frontendUser */
-    $frontendUser = $request->getAttribute('frontend.user');
-
-Some information via frontend and backend users con be obtained via the
-:ref:`user aspect <context_api_aspects_user>`. For example:
-
-..  code-block:: php
-
-    // return whether a frontend user is logged in
-    $context->getPropertyFromAspect('frontend.user', 'isLoggedIn');
 
 ..  _tsfe_baseURL:
 
 Get current base URL
 --------------------
 
-It used to be possible to get the base URL configuration (from TypoScript
-:typoscript:`config.baseURL`) with the :php:`TSFE` :php:`baseURL` property. The
-property is now protected and deprecated since TYPO3 v12. Already in
-earlier version, site configuration should be used to get the base URL
-of the current site.
+..  versionchanged:: 13.0
+    The variable :php:`$GLOBALS['TSFE']->baseURL` has been removed with TYPO3
+    v13.
 
-..  code-block:: php
-
-    // !!! deprecated
-    $GLOBALS['TSFE']->baseURL
+Use the :ref:`request object <typo3-request>` and retrieve the
+:ref:`site attribute <typo3-request-attribute-site>` which holds the
+:ref:`site configuration <sitehandling-create-new>`:
 
 ..  code-block:: php
 

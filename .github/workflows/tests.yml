@@ -5,11 +5,26 @@ on:
   pull_request:
 
 jobs:
-  testsuite:
-    name: all tests
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php:
+          - '8.2'
+          - '8.3'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint PHP
+        run: Build/Scripts/runTests.sh -p ${{ matrix.php }} -s lint
+
+  quality:
+    name: Quality
     runs-on: ubuntu-latest
     env:
-      php: '8.1'
+      php: '8.2'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,9 +38,6 @@ jobs:
       - name: Composer normalize
         run: Build/Scripts/runTests.sh -p ${{ env.php }} -s composerNormalize -n
 
-      - name: Lint PHP
-        run: Build/Scripts/runTests.sh -p ${{ env.php }} -s lint
-
       - name: CGL
         run: Build/Scripts/runTests.sh -n -p ${{ env.php }} -s cgl -n
 
@@ -33,4 +45,4 @@ jobs:
         run: Build/Scripts/runTests.sh -p ${{ env.php }} -s checkRst
 
       - name: Lint YAML
-        run: .Build/bin/yaml-lint Documentation/
+        run: Build/Scripts/runTests.sh -p ${{ env.php }} -s yamlLint

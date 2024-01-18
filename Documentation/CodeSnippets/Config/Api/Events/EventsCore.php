@@ -15,6 +15,12 @@ return [
     ],
     [
         'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Core\Configuration\Event\BeforeTcaOverridesEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Core/BeforeTcaOverridesEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
         'class' => \TYPO3\CMS\Core\TypoScript\IncludeTree\Event\ModifyLoadedPageTsConfigEvent::class,
         'targetFileName' => 'CodeSnippets/Events/Core/ModifyLoadedPageTsConfigEvent.rst.txt',
         'withCode' => false,
@@ -177,22 +183,21 @@ return [
         'withCode' => false,
     ],
     [
-        'action' => 'createPhpClassCodeSnippet',
-        'class' => \T3docs\Examples\EventListener\Core\Configuration\FlexFormParsingModifyEventListener::class,
-        'members' => [
-            'setDataStructure',
-            'modifyDataStructure',
-            'setDataStructureIdentifier',
-            'modifyDataStructureIdentifier',
-        ],
-        'withComment' => true,
-        'withClassComment' => false,
-        'targetFileName' => 'CodeSnippets/Events/Core/FlexFormParsingModifyEventListener/FlexFormParsingModifyEventListener.rst.txt',
-    ],
-    [
         'action' => 'createPhpClassDocs',
         'class' => \TYPO3\CMS\Core\TypoScript\IncludeTree\Event\AfterTemplatesHaveBeenDeterminedEvent::class,
         'targetFileName' => 'CodeSnippets/Events/Core/AfterTemplatesHaveBeenDeterminedEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedPageTsConfigEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Core/BeforeLoadedPageTsConfigEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedUserTsConfigEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Core/BeforeLoadedUserTsConfigEvent.rst.txt',
         'withCode' => false,
     ],
     [
@@ -259,6 +264,18 @@ return [
         'action' => 'createPhpClassDocs',
         'class' => \TYPO3\CMS\Core\Cache\Event\CacheWarmupEvent::class,
         'targetFileName' => 'CodeSnippets/Events/Core/Cache/CacheWarmupEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Core\Imaging\Event\ModifyRecordOverlayIconIdentifierEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Core/ModifyRecordOverlayIconIdentifierEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Core\Domain\Event\ModifyDefaultConstraintsForDatabaseQueryEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Core/ModifyDefaultConstraintsForDatabaseQueryEvent.rst.txt',
         'withCode' => false,
     ],
 ];

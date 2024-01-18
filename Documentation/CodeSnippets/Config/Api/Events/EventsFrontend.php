@@ -75,4 +75,28 @@ return [
         'targetFileName' => 'CodeSnippets/Events/Frontend/AfterCachedPageIsPersistedEvent.rst.txt',
         'withCode' => false,
     ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Frontend\ContentObject\Event\AfterContentObjectRendererInitializedEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Frontend/AfterContentObjectRendererInitializedEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Frontend\ContentObject\Event\AfterGetDataResolvedEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Frontend/AfterGetDataResolvedEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Frontend\ContentObject\Event\ModifyImageSourceCollectionEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Frontend/ModifyImageSourceCollectionEvent.rst.txt',
+        'withCode' => false,
+    ],
+    [
+        'action' => 'createPhpClassDocs',
+        'class' => \TYPO3\CMS\Frontend\ContentObject\Event\AfterImageResourceResolvedEvent::class,
+        'targetFileName' => 'CodeSnippets/Events/Frontend/AfterImageResourceResolvedEvent.rst.txt',
+        'withCode' => false,
+    ],
 ];

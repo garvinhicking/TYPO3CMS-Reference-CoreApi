@@ -120,7 +120,12 @@ to this wizard (via page TSconfig).
    :file:`ext_localconf.php`. See :ref:`Setting global page TSconfig, compatible with TYPO3
    11 and 12 <t3tsconfig:page-tsconfig-v11-v12>`.
 
-.. include:: /Images/AutomaticScreenshots/CustomContentElements/ContentElementWizard.rst.txt
+.. figure:: /Images/ManualScreenshots/Backend/ContentElementWizard.png
+   :class: with-shadow
+   :alt: Content element wizard with the new content element
+
+   Content element wizard with the new content element
+
 
 The content element wizard configuration is described in detail in
 :ref:`content-element-wizard`.
@@ -203,20 +208,22 @@ All fields of the table :php:`tt_content` are now available in the variable
 have to run it through `f:format.html` to resolve all links and other
 formatting. Read more about :ref:`fluid`.
 
-.. tip::
+..  tip::
 
-   During development you can output all available variables in a Fluid
-   template by adding :html:`<f:debug>{_all}</f:debug>`.
+    During development you can output all available variables in a Fluid
+    template by adding :html:`<f:debug>{_all}</f:debug>`.
 
-   Even more convenient:
-   :html:`<f:if condition="{condition}"><f:debug>{_all}</f:debug></f:if>`
-   lets you easily turn debugging on or off, depending on whether you
-   fill in "1" or "0" for *condition*.
+    Even more convenient:
+    :html:`<f:if condition="{condition}"><f:debug>{_all}</f:debug></f:if>`
+    lets you easily turn debugging on or off, depending on whether you
+    fill in "1" or "0" for *condition*.
 
-   | Example lines:
-   |    :html:`<f:if condition="1"><f:debug>{settings}</f:debug></f:if>`
-   |    :html:`<f:if condition="0"><f:debug>{data}</f:debug></f:if>`
-   |    :html:`<f:if condition="1"><f:debug>{current}</f:debug></f:if>`
+    ..  code-block:: html
+        :caption: Example lines
+
+        <f:if condition="1"><f:debug>{settings}</f:debug></f:if>
+        <f:if condition="0"><f:debug>{data}</f:debug></f:if>
+        <f:if condition="1"><f:debug>{current}</f:debug></f:if>
 
 
 Below you can see the example output of the new content element and a

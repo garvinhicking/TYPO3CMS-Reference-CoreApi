@@ -70,13 +70,17 @@ injected via :ref:`dependency injection <DependencyInjection>`.
     dependency injection or :php:`GeneralUtility::makeInstance()`, otherwise you
     will miss essential dependencies and runtime setup.
 
-..  note::
-    The QueryBuilder holds internal state and should not be reused for
-    different queries: Use one query builder per query. Get a fresh one by
-    calling :php:`$connection->createQueryBuilder()` if the same table is
+..  warning::
+    The QueryBuilder holds internal state and must not be reused for
+    different queries. In addition, a reuse comes with a
+    `significant performance penalty and memory consumption`_.
+    **Use one query builder per query.** Get a fresh one by calling
+    :php:`$connection->createQueryBuilder()` if the same table is
     involved, or use :php:`$connectionPool->getQueryBuilderForTable()` for a
-    query to a different table. Don't worry, creating those object instances
+    query to a different table. Do not worry, creating those object instances
     is quite fast.
+
+..  _significant performance penalty and memory consumption: https://www.derhansen.de/2023/10/the-pitfalls-of-reusing-typo3-querybuilder-analyzing-a-performance-bottleneck.html
 
 
 ..  _database-query-builder-select:
@@ -395,7 +399,7 @@ Create an :sql:`INSERT` query. Typical usage:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
-    // INSERT INTO `tt_content` (`bodytext`, `header`) VALUES(`lorem`, `dolor`)
+    // INSERT INTO `tt_content` (`bodytext`, `header`) VALUES ('lorem', 'dolor')
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $affectedRows = $queryBuilder
         ->insert('tt_content')
@@ -408,26 +412,27 @@ Create an :sql:`INSERT` query. Typical usage:
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
 
-The `uid` of the created database row can be fetched from the connection
-by using :ref:`$queryBuilder->getConnection()->lastInsertId() <database-connection-last-insert-id>`.
-
 Remarks:
 
-*   Often it is often to use :php:`->insert()` or :php:`->bulkInsert()` of the
-    :ref:`Connection <database-connection>` object.
+*   The `uid` of the created database row can be fetched from the connection
+    by using :ref:`$queryBuilder->getConnection()->lastInsertId() <database-connection-last-insert-id>`.
 
-*   :php:`->values()` expects an array of key/value pairs. Both keys (field
-    names / identifiers) and values are automatically quoted. In rare cases,
+*   :php:`->values()` expects an array of key/value pairs. Both **keys** (field
+    names / identifiers) and **values** are automatically quoted. In rare cases,
     quoting of values can be turned off by setting the second argument to
-    :php:`false`. In those cases, quoting has must done manually, typically
-    by using :php:`->createNamedParameter()` on the values, use with care ...
+    :php:`false`. Then quoting must be done manually, typically by using
+    :php:`->createNamedParameter()` on the values.
 
 *   :php:`->executeStatement()` after :php:`->insert()` returns the number of
     inserted rows, which is typically `1`.
 
-*   The query builder does not contain a method for inserting multiple rows at
-    once, use :php:`->bulkInsert()` of the :ref:`Connection
-    <database-connection>` object instead to achieve that.
+*   An alternative to using the query builder for inserting data is using the
+    :ref:`Connection <database-connection>` object with its :php:`->insert()`
+    method.
+
+*   The query builder does **not provide** a method for inserting multiple rows
+    at once, use :php:`->bulkInsert()` of the :ref:`Connection <database-connection>`
+    object instead to achieve that.
 
 
 from()
@@ -952,12 +957,14 @@ executeQuery() and executeStatement()
 =====================================
 
 ..  versionchanged:: 11.5
-    The widely used :php:`->execute()` method has been split into
-    :php:`executeQuery()` and :php:`executeStatement()`. :php:`executeQuery()`
-    returns a :php:`\Doctrine\DBAL\Result` instead of a
-    :php:`\Doctrine\DBAL\Statement`. :php:`executeStatement()` returns the
-    number of affected rows. The :php:`->execute()` method has been removed with
-    TYPO3 v13.0.
+    The widely used :php:`->execute()` method has been split into:
+
+    * :php:`->executeQuery()` returning a :php:`\Doctrine\DBAL\Result` instead of
+      a :php:`\Doctrine\DBAL\Statement` and
+
+    * :php:`->executeStatement()` returning the number of affected rows.
+
+    The :php:`->execute()` method has been removed with TYPO3 v13.0.
 
 ..  _database-query-builder-execute-query:
 

@@ -62,12 +62,11 @@ file.
 
 ..  note::
 
-    ..  versionchanged:: 13.0
-        A :sql:`CREATE TABLE` statement without columns in the
-        :file:`ext_tables.php` file is supported.
+    ..  versionadded:: 13.0
 
-    As column definitions are created automatically, the :file:`ext_tables.sql`
-    file can end up with a table definition without columns, like:
+    As column definitions are created automatically from the TCA configuration,
+    the :file:`ext_tables.sql` file can end up with a table definition without
+    columns, like:
 
     ..  code-block:: sql
 
@@ -78,6 +77,9 @@ file.
     :abbr:`DBMS (Database Management System)`, since tables usually must have
     at least one column. However, it is a valid definition in the scope of
     :file:`ext_tables.sql` files when the TYPO3 Core enriches fields from TCA.
+
+    Also, you can omit the :sql:`CREATE TABLE` statement without columns
+    entirely.
 
 These columns below are automatically added if not defined in
 :file:`ext_tables.sql` for database tables that provide a :php:`$GLOBALS['TCA']`
@@ -154,23 +156,37 @@ auto-generated fields, if they are not manually defined in the
     A default index named :sql:`t3ver_oid` to fields :sql:`t3ver_oid` and
     :sql:`t3ver_wsid` is added, too.
 
-The following
+The configuration in
+:ref:`$GLOBALS['TCA'][$table]['columns'][$field]['config']['MM'] <t3tca:tca_property_MM>`
+is considered for auto-generating the intermediate table and fields for:
+
+*   :ref:`TCA type "group" <t3tca:columns-group-properties-mm>`
+*   :ref:`TCA type "inline" <t3tca:columns-inline-properties-mm>`
+*   :ref:`TCA type "select" <t3tca:columns-select-properties-mm>`
+
+The following types configured via
 :ref:`$GLOBALS['TCA'][$table]['columns'][$field]['config'] <t3tca:columns-types>`
 are considered for auto-generated fields, if they are not manually defined in
 the :file:`ext_tables.sql` file:
 
-:php:`['config']['MM']`
-    :sql:`CREATE TABLE` definitions for intermediate tables referenced by TCA
-    table columns should not be defined manually in the :file:`ext_tables.php`
-    file:
-
-    *   :ref:`TCA type "group" <t3tca:columns-group-properties-mm>`
-    *   :ref:`TCA type "inline" <t3tca:columns-inline-properties-mm>`
-    *   :ref:`TCA type "select" <t3tca:columns-select-properties-mm>`
-
-:php:`['config']['type'] => 'slug'`
-    ..  versionadded:: 12.0
-        Database table fields for TCA type :php:`slug` are created automatically.
-
-    See also :ref:`t3tca:columns-slug`.
-
+*   :ref:`TCA type "category" <t3tca:columns-category>` (since TYPO3 v12.0)
+*   :ref:`TCA type "check" <t3tca:columns-check>` (since TYPO3 v13.0)
+*   :ref:`TCA type "color" <t3tca:columns-color>` (since TYPO3 v13.0)
+*   :ref:`TCA type "datetime" <t3tca:columns-datetime>`
+*   :ref:`TCA type "email" <t3tca:columns-email>` (since TYPO3 v13.0)
+*   :ref:`TCA type "file" <t3tca:columns-file>` (since TYPO3 v13.0)
+*   :ref:`TCA type "flex" <t3tca:columns-flex>` (since TYPO3 v13.0)
+*   :ref:`TCA type "folder" <t3tca:columns-folder>` (since TYPO3 v13.0)
+*   :ref:`TCA type "group" <t3tca:columns-group>` (since TYPO3 v13.0)
+*   :ref:`TCA type "imageManipulation" <t3tca:columns-imageManipulation>` (since TYPO3 v13.0)
+*   :ref:`TCA type "inline" <t3tca:columns-inline>` (since TYPO3 v13.0)
+*   :ref:`TCA type "json" <t3tca:columns-json>`
+*   :ref:`TCA type "language" <t3tca:columns-language>` (since TYPO3 v13.0)
+*   :ref:`TCA type "link" <t3tca:columns-link>` (since TYPO3 v13.0)
+*   :ref:`TCA type "number" <t3tca:columns-number>` (since TYPO3 v13.0)
+*   :ref:`TCA type "password" <t3tca:columns-password>` (since TYPO3 v13.0)
+*   :ref:`TCA type "radio" <t3tca:columns-radio>` (since TYPO3 v13.0)
+*   :ref:`TCA type "select" <t3tca:columns-select>` (since TYPO3 v13.0)
+*   :ref:`TCA type "slug" <t3tca:columns-slug>` (since TYPO3 v12.0)
+*   :ref:`TCA type "text" <t3tca:columns-text>` (since TYPO3 v13.0)
+*   :ref:`TCA type "uuid" <t3tca:columns-uuid>`

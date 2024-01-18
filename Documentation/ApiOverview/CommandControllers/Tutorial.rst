@@ -13,6 +13,8 @@ A console command is always situated in an extension. If you want to create
 one, :ref:`kickstart a custom extension <extension-kickstart>` or use your
 sitepackage extension.
 
+.. _console-command-tutorial-create:
+
 Creating a basic command
 ========================
 
@@ -25,8 +27,16 @@ created by different means.
 This command can be found in the
 `Examples extension <https://github.com/TYPO3-Documentation/t3docs-examples>`__.
 
+.. _console-command-tutorial-registration-services:
+
 1. Register the command
 -----------------------
+
+..  versionadded:: 12.4.8
+    The Symfony PHP attribute :php:`\Symfony\Component\Console\Attribute\AsCommand`
+    is now accepted to register console commands.
+    See the section :ref:`console-command-tutorial-registration-attribute`
+    for more details.
 
 Register the command in :file:`Configuration/Services.yaml` by adding the service
 definition for your class as tag :yaml:`console.command`:
@@ -50,6 +60,10 @@ definition for your class as tag :yaml:`console.command`:
           - name: console.command
             command: 'examples:dosomething'
             description: 'A command that does nothing and always succeeds.'
+          # Also an alias for the command can be configured
+          - name: console.command
+            command: 'examples:dosomethingalias'
+            alias: true
 
 The following attributes are available:
 
@@ -71,6 +85,10 @@ The following attributes are available:
 :yaml:`hidden`
     A command can be hidden from the command list by setting :yaml:`hidden` to
     :yaml:`true`.
+
+:yaml:`alias`
+    A command can be made available under a different name. Set to :yaml:`true`,
+    if your command name is an alias.
 
 ..  note::
     Despite using :file:`autoconfigure: true` the commands
@@ -131,6 +149,33 @@ succeeded.
     .. code-block:: bash
 
         vendor/bin/typo3 cache:flush
+
+
+..  _console-command-tutorial-registration-attribute:
+
+Use the PHP attribute to register commands
+==========================================
+
+..  versionadded:: 12.4.8
+
+CLI commands can be registered by setting the attribute
+:php:`\Symfony\Component\Console\Attribute\AsCommand` on the command class.
+When using this attribute there is no need to register the command in the
+:file:`Services.yaml` file.
+
+..  note::
+    Only the parameters `command`, `description`, `aliases` and `hidden` are
+    available. In order to overwrite the parameter `schedulable` use the
+    registration via
+    :ref:`Services.yaml <console-command-tutorial-registration-services>`.
+    By default, `schedulable` is true.
+
+The :ref:`example above <console-command-tutorial-create>` can also be
+registered this way:
+
+..  literalinclude:: _Tutorial/_DoSomethingCommandViaAttribute.php
+    :language: php
+    :caption: EXT:my_extension/Classes/Command/MyCommand.php
 
 
 Create a command with arguments and interaction

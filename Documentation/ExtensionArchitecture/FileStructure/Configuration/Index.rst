@@ -23,7 +23,7 @@ folder:
 ..  code-block:: none
     :caption: Common content of the configuration folder
 
-    $ tree local_packages/my_extension/Configuration/
+    $ tree packages/my_extension/Configuration/
     ├── Backend
     │    ├── AjaxRoutes.php
     │    └── Routes.php
@@ -46,7 +46,7 @@ folder:
     │    ├── tx_myextension_domain_model_something.php
     │    ├── ...
     │    └── tx_myextension_sometable.php
-    ├── TSconfig
+    ├── TsConfig
     │    ├── Page
     │    └── User
     ├── TypoScript
@@ -60,7 +60,8 @@ folder:
     ├── Icons.php
     ├── page.tsconfig
     ├── RequestMiddlewares.php
-    └── Services.yaml
+    ├── Services.yaml
+    └── user.tsconfig
 
 
 ..  toctree::
