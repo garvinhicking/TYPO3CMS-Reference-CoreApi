@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Domain\Access\RecordAccessGrantedEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/set-access-granted'
+    identifier: 'my-extension/set-access-granted',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(RecordAccessGrantedEvent $event): void
     {

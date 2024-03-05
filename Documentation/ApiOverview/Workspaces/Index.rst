@@ -242,25 +242,27 @@ Workspace-related API for backend modules
    passed by reference.
 
    .. todo: Find a better example
-            If looped (while), resultset is retrieved and looped completly, as there is
+            If looped (while), resultset is retrieved and looped completely, as there is
             no "break" which could leave unretrieved results. So the single retrieve
             statement after the loop do not make any sense, as resultset is at the end,
             and would return false instead of a row ....
             Next point is, that queryBuilder createNamedParameter does not make any
-            sense either, as it not assigned anyware or used?
+            sense either, as it not assigned anywhere or used?
 
    **Example:**
 
    .. code-block:: php
       :caption: EXT:some_extension/Classes/SomeClass.php
 
-      // use \TYPO3\CMS\Backend\Utility\BackendUtility
+      // use TYPO3\CMS\Backend\Utility\BackendUtility
+      // use TYPO3\CMS\Core\Database\Connection;
+
       $result = $queryBuilder
          ->select('*')
          ->from('pages')
          ->where(
             $queryBuilder->expr()->eq('uid',
-               $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)
+               $queryBuilder->createNamedParameter($id, Connection::PARAM_INT)
             )
          )
          ->executeQuery();

@@ -9,9 +9,9 @@ use TYPO3\CMS\Redirects\Event\RedirectWasHitEvent;
 
 #[AsEventListener(
     identifier: 'my-extension/redirects/validate-hit-count',
-    before: 'redirects-increment-hit-count'
+    before: 'redirects-increment-hit-count',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(RedirectWasHitEvent $event): void
     {
@@ -25,15 +25,15 @@ final class MyEventListener
         ) {
             $matchedRedirect['disable_hitcount'] = true;
             $event->setMatchedRedirect(
-                $matchedRedirect
+                $matchedRedirect,
             );
 
             // Also add a custom response header
             $event->setResponse(
                 $event->getResponse()->withAddedHeader(
                     'X-My-Custom-Header',
-                    'Hit count increment skipped'
-                )
+                    'Hit count increment skipped',
+                ),
             );
         }
     }

@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Controller\Event\AfterRecordSummaryForLocalizationEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/after-record-summary-for-localization'
+    identifier: 'my-extension/backend/after-record-summary-for-localization',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(AfterRecordSummaryForLocalizationEvent $event): void
     {

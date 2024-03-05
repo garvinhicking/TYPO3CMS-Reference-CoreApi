@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Routing\Event\BeforePagePreviewUriGeneratedEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/modify-parameters'
+    identifier: 'my-extension/backend/modify-parameters',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforePagePreviewUriGeneratedEvent $event): void
     {
@@ -18,8 +18,8 @@ final class MyEventListener
         $event->setAdditionalQueryParameters(
             array_replace_recursive(
                 $event->getAdditionalQueryParameters(),
-                ['myParam' => 'paramValue']
-            )
+                ['myParam' => 'paramValue'],
+            ),
         );
     }
 }

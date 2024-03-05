@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Core\Event\BootCompletedEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/boot-completed'
+    identifier: 'my-extension/boot-completed',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BootCompletedEvent $e): void
     {

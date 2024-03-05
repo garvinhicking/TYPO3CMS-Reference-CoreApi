@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\Event\AfterTemplatesHaveBeenDeterminedEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/post-process-sys-templates'
+    identifier: 'my-extension/post-process-sys-templates',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(AfterTemplatesHaveBeenDeterminedEvent $event): void
     {

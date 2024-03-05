@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\TypoScript\IncludeTree\Event\BeforeLoadedUserTsConfigEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/global-usertsconfig'
+    identifier: 'my-extension/global-usertsconfig',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforeLoadedUserTsConfigEvent $event): void
     {

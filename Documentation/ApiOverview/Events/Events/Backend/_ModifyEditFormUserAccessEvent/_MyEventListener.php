@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Form\Event\ModifyEditFormUserAccessEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/modify-edit-form-user-access'
+    identifier: 'my-extension/backend/modify-edit-form-user-access',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyEditFormUserAccessEvent $event): void
     {

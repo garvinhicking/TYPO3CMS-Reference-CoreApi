@@ -76,8 +76,22 @@ Remarks:
 Example: two connections
 ========================
 
-Another example with two connections, where the :sql:`sys_log` table is mapped
-to a different endpoint:
+..  attention::
+    ..  versionchanged:: 13.0
+
+    TYPO3 expects all "main" Core system tables to be configured for the
+    :php:`Default` connection (especially :sql:`sys_*`, :sql:`pages`,
+    :sql:`tt_content` and in general all tables that have
+    :ref:`TCA <t3tca:start>` configured). The reason for this is to improve
+    performance with joins between tables. Cross-database joins are almost
+    impossible.
+
+    One scenario for using a separate database connection is to query data
+    directly from a third-party application in a custom extension. Another
+    use case is database-based caches.
+
+Another example with two connections, where the :sql:`be_sessions` table is
+mapped to a different endpoint:
 
 ..  code-block:: php
     :caption: config/system/settings.php
@@ -94,36 +108,30 @@ to a different endpoint:
                 'port' => 3306,
                 'user' => 'default_user',
             ],
-            'Syslog' => [
-                'charset' => 'utf8',
-                'dbname' => 'syslog_dbname',
+            'Sessions' => [
+                'charset' => 'utf8mb4',
                 'driver' => 'mysqli',
-                'host' => 'syslog_host',
+                'dbname' => 'sessions_dbname',
+                'host' => 'sessions_host',
                 'password' => '***',
                 'port' => 3306,
-                'user' => 'syslog_user',
+                'user' => 'some_user',
             ],
         ],
         'TableMapping' => [
-            'sys_log' => 'Syslog'
-        ],
+            'be_sessions' => 'Sessions',
+        ]
     ],
     // [...]
 
 
 Remarks:
 
-*   The array key :php:`Syslog` is just a name. It can be different, but it is
+*   The array key :php:`Sessions` is just a name. It can be different, but it is
     good practice to give it a useful, descriptive name.
 
 *   It is possible to map multiple tables to a different endpoint by adding
     further table name / connection name pairs to :php:`TableMapping`.
-
-*   However, this "connection per table" approach is limited: In the above
-    example, if a join query is executed that spans different connections, an
-    exception will be thrown. It is up to the administrator to group the
-    affected tables to the same connection in those cases, or a developer should
-    implementfallback logic to suppress the :sql:`join()`.
 
 
 ..  attention::

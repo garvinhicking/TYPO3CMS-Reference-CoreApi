@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Frontend\Event\AfterCachedPageIsPersistedEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/content-modifier'
+    identifier: 'my-extension/content-modifier',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(AfterCachedPageIsPersistedEvent $event): void
     {

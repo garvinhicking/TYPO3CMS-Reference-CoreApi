@@ -45,6 +45,8 @@ context:
 ..  literalinclude:: _MyTableRepository.php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyTableRepository.php
 
+See available :ref:`parameter types <database-connection-parameter-types>`.
+
 ..  warning::
     It is of crucial importance to quote values correctly to not introduce SQL
     injection attack vectors into your application. See the :ref:`according
@@ -75,6 +77,8 @@ Example to find :sql:`tt_content` records:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyTableRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // WHERE
     //     (`tt_content`.`CType` = 'list')
     //     AND (
@@ -88,17 +92,18 @@ Example to find :sql:`tt_content` records:
         $queryBuilder->expr()->or(
             $queryBuilder->expr()->eq(
                 'list_type',
-                $queryBuilder->createNamedParameter('example_pi1')
+                $queryBuilder->createNamedParameter('example_pi1', Connection::PARAM_STR)
             ),
             $queryBuilder->expr()->eq(
                 'list_type',
-                $queryBuilder->createNamedParameter('example_pi2')
+                $queryBuilder->createNamedParameter('example_pi2', Connection::PARAM_STR)
             )
         )
     )
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 
 Comparisons
@@ -162,6 +167,8 @@ Examples:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyTableRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // `bodytext` = 'foo' - string comparison
     ->eq('bodytext', $queryBuilder->createNamedParameter('foo'))
 
@@ -172,10 +179,10 @@ Examples:
     ->eq('aTableAlias.bodytext', $queryBuilder->createNamedParameter('foo'))
 
     // `uid` = 42 - integer comparison
-    ->eq('uid', $queryBuilder->createNamedParameter(42, \PDO::PARAM_INT))
+    ->eq('uid', $queryBuilder->createNamedParameter(42, Connection::PARAM_INT))
 
     // `uid` >= 42
-    ->gte('uid', $queryBuilder->createNamedParameter(42, \PDO::PARAM_INT))
+    ->gte('uid', $queryBuilder->createNamedParameter(42, Connection::PARAM_INT))
 
     // `bodytext` LIKE 'lorem'
     ->like(
@@ -216,6 +223,7 @@ Examples:
         )
     )
 
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Aggregate Functions
 ===================
@@ -288,16 +296,17 @@ database level. The following examples give a better idea of what is possible:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 The call to :php:`$queryBuilder->expr()-trim()` can be one of the following:
 
 *   :php:`trim('fieldName')`
     results in :code:`TRIM("tableName"."fieldName")`
-*   :php:`trim('fieldName', AbstractPlatform::TRIM_LEADING, 'x')`
+*   :php:`trim('fieldName', TrimMode::LEADING, 'x')`
     results in :code:`TRIM(LEADING "x" FROM "tableName"."fieldName")`
-*   :php:`trim('fieldName', AbstractPlatform::TRIM_TRAILING, 'x')`
+*   :php:`trim('fieldName', TrimMode::TRAILING, 'x')`
     results in :code:`TRIM(TRAILING "x" FROM "tableName"."fieldName")`
-*   :php:`trim('fieldName', AbstractPlatform::TRIM_BOTH, 'x')`
+*   :php:`trim('fieldName', TrimMode::BOTH, 'x')`
     results in :code:`TRIM(BOTH "x" FROM "tableName"."fieldName")`
 
 
@@ -322,3 +331,4 @@ with an optional alias :php:`->length(string $fieldName, string $alias = null)`:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.

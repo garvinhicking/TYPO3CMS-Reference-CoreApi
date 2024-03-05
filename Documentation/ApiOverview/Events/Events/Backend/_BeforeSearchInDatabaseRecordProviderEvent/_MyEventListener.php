@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Search\Event\BeforeSearchInDatabaseRecordProviderEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/before-search-in-database-record-provider'
+    identifier: 'my-extension/before-search-in-database-record-provider',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforeSearchInDatabaseRecordProviderEvent $event): void
     {

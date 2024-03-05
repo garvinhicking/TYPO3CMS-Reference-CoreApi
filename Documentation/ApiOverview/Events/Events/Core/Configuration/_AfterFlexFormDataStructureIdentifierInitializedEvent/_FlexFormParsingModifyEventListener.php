@@ -12,21 +12,21 @@ use TYPO3\CMS\Core\Configuration\Event\BeforeFlexFormDataStructureParsedEvent;
 
 #[AsEventListener(
     identifier: 'my-extension/set-data-structure',
-    method: 'setDataStructure'
+    method: 'setDataStructure',
 )]
 #[AsEventListener(
     identifier: 'my-extension/modify-data-structure',
-    method: 'modifyDataStructure'
+    method: 'modifyDataStructure',
 )]
 #[AsEventListener(
     identifier: 'my-extension/set-data-structure-identifier',
-    method: 'setDataStructureIdentifier'
+    method: 'setDataStructureIdentifier',
 )]
 #[AsEventListener(
     identifier: 'my-extension/modify-data-structure-identifier',
-    method: 'modifyDataStructureIdentifier'
+    method: 'modifyDataStructureIdentifier',
 )]
-final class FlexFormParsingModifyEventListener
+final readonly class FlexFormParsingModifyEventListener
 {
     public function setDataStructure(BeforeFlexFormDataStructureParsedEvent $event): void
     {

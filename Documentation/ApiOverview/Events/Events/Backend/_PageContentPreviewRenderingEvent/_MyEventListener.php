@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/preview-rendering-example-ctype'
+    identifier: 'my-extension/preview-rendering-example-ctype',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(PageContentPreviewRenderingEvent $event): void
     {

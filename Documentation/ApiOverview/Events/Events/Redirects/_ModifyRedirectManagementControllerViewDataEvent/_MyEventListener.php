@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Redirects\Event\ModifyRedirectManagementControllerViewDataEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/modify-redirect-management-controller-view-data'
+    identifier: 'my-extension/modify-redirect-management-controller-view-data',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyRedirectManagementControllerViewDataEvent $event): void
     {

@@ -72,8 +72,8 @@ Connections
         ]
 
     It is possible to swap out tables from the default database and use a specific
-    setup (e.g. for logging or caching). For example, the following snippet could
-    be used to swap the :sql:`sys_log` table to another database or even another
+    setup (for instance, for caching). For example, the following snippet could
+    be used to swap the :sql:`be_sessions` table to another database or even another
     database server:
 
     ..  code-block:: php
@@ -89,19 +89,33 @@ Connections
                 'port' => 3306,
                 'user' => 'typo3',
             ],
-            'Syslog' => [
+            'Sessions' => [
                 'charset' => 'utf8mb4',
                 'driver' => 'mysqli',
-                'dbname' => 'syslog_dbname',
-                'host' => 'syslog_host',
+                'dbname' => 'sessions_dbname',
+                'host' => 'sessions_host',
                 'password' => '***',
                 'port' => 3306,
-                'user' => 'syslog_user',
+                'user' => 'some_user',
             ],
         ],
         'TableMapping' => [
-            'sys_log' => 'Syslog',
+            'be_sessions' => 'Sessions',
         ]
+
+    ..  attention::
+        ..  versionchanged:: 13.0
+
+        TYPO3 expects all "main" Core system tables to be configured for the
+        :php:`Default` connection (especially :sql:`sys_*`, :sql:`pages`,
+        :sql:`tt_content` and in general all tables that have
+        :ref:`TCA <t3tca:start>` configured). The reason for this is to improve
+        performance with joins between tables. Cross-database joins are almost
+        impossible.
+
+        One scenario for using a separate database connection is to query data
+        directly from a third-party application in a custom extension. Another
+        use case is database-based caches.
 
     ..  note::
         The connection options described below are the most commonly used. These
@@ -298,7 +312,8 @@ TableMapping
     When a TYPO3 table is swapped to another database (either on the same host
     or another host) this table must be mapped to the other database.
 
-    For example, the :sql:`sys_log` table should be swapped to another database:
+    For example, the :sql:`be_sessions` table should be swapped to another
+    database:
 
     ..  code-block:: php
         :caption: config/system/settings.php | typo3conf/system/settings.php
@@ -307,16 +322,16 @@ TableMapping
             'Default' => [
                 // ...
             ],
-            'Syslog' => [
+            'Sessions' => [
                 'charset' => 'utf8mb4',
                 'driver' => 'mysqli',
-                'dbname' => 'syslog_dbname',
-                'host' => 'syslog_host',
+                'dbname' => 'sessions_dbname',
+                'host' => 'sessions_host',
                 'password' => '***',
                 'port' => 3306,
-                'user' => 'syslog_user',
+                'user' => 'some_user',
             ],
         ],
         'TableMapping' => [
-            'sys_log' => 'Syslog',
+            'be_sessions' => 'Sessions',
         ]

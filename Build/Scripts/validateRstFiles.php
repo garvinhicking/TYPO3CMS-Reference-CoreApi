@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -77,7 +78,7 @@ class validateRstFiles
                     $this->messages['include']['title'],
                     $this->messages['reference']['title'],
                     $this->messages['index']['title'],
-                    $shortPath
+                    $shortPath,
                 );
                 if ($this->messages['include']['message']) {
                     printf($this->messages['include']['message'] . chr(10));

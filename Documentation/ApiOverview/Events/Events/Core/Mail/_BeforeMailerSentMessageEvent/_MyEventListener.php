@@ -10,9 +10,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Mail\Event\BeforeMailerSentMessageEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/modify-message'
+    identifier: 'my-extension/modify-message',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforeMailerSentMessageEvent $event): void
     {

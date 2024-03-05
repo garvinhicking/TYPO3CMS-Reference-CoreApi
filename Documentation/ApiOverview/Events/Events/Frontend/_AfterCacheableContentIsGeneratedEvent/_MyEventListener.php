@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/content-modifier'
+    identifier: 'my-extension/content-modifier',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(AfterCacheableContentIsGeneratedEvent $event): void
     {
@@ -21,7 +21,7 @@ final class MyEventListener
         $event->getController()->content = str_replace(
             'foo',
             'bar',
-            $event->getController()->content
+            $event->getController()->content,
         );
     }
 }

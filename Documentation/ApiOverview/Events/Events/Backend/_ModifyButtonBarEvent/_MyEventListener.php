@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Template\Components\ModifyButtonBarEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/modify-button-bar'
+    identifier: 'my-extension/backend/modify-button-bar',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyButtonBarEvent $event): void
     {

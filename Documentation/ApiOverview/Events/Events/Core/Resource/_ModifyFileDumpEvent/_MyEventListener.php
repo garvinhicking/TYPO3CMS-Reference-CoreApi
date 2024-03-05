@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Resource\Event\ModifyFileDumpEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/modify-file-dump'
+    identifier: 'my-extension/modify-file-dump',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyFileDumpEvent $event): void
     {

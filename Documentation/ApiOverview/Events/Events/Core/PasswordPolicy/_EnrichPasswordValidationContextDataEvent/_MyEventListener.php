@@ -9,9 +9,9 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\PasswordPolicy\Event\EnrichPasswordValidationContextDataEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/enrich-context-data-event-listener'
+    identifier: 'my-extension/enrich-context-data-event-listener',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(EnrichPasswordValidationContextDataEvent $event): void
     {

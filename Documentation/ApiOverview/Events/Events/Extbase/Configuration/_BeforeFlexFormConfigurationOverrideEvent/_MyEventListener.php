@@ -8,9 +8,9 @@ use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Extbase\Event\Configuration\BeforeFlexFormConfigurationOverrideEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/before-flexform-configuration-override'
+    identifier: 'my-extension/before-flexform-configuration-override',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforeFlexFormConfigurationOverrideEvent $event): void
     {

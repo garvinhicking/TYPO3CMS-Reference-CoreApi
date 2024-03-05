@@ -9,9 +9,9 @@ use TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent;
 
 #[AsEventListener(
     identifier: 'my-extension/cache-timeout',
-    after: 'typo3-seo/hreflangGenerator'
+    after: 'typo3-seo/hreflangGenerator',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyHrefLangTagsEvent $event): void
     {

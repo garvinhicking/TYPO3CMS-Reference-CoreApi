@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Controller\Event\ModifyNewContentElementWizardItemsEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/modify-wizard-items'
+    identifier: 'my-extension/backend/modify-wizard-items',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(ModifyNewContentElementWizardItemsEvent $event): void
     {
@@ -25,7 +25,7 @@ final class MyEventListener
                     'CType' => 'my_element',
                 ],
             ],
-            ['after' => 'common_textpic']
+            ['after' => 'common_textpic'],
         );
     }
 }

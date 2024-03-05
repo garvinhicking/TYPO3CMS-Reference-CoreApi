@@ -9,9 +9,9 @@ use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Install\Service\Event\ModifyLanguagePackRemoteBaseUrlEvent;
 
 #[AsEventListener(
-    identifier: 'my-extension/custom-mirror'
+    identifier: 'my-extension/custom-mirror',
 )]
-final class CustomMirror
+final readonly class CustomMirror
 {
     private const EXTENSION_KEY = 'my_extension';
     private const MIRROR_URL = 'https://example.org/typo3-packages/';

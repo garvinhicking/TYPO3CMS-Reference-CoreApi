@@ -135,7 +135,7 @@ With :php:`->select()` the list of fields to be selected is specified, and with
 :php:`->addSelect()` further elements can be added to an existing list.
 
 Mind that :php:`->select()` **replaces** any formerly registered list instead of
-appending it. Thus, it is not very usefule to call :php:`select()` twice in a
+appending it. Thus, it is not very useful to call :php:`select()` twice in a
 code flow or **after** an :php:`->addSelect()`. The methods :php:`->where()` and
 :php:`->andWhere()` share the same behavior: :php:`->where()` replaces all
 formerly registered constraints, :php:`->andWhere()` appends additional
@@ -160,12 +160,14 @@ code flow of a :sql:`SELECT` query looks like this:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $result = $queryBuilder
         ->select('uid', 'header', 'bodytext')
         ->from('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->executeQuery();
 
@@ -176,6 +178,7 @@ code flow of a :sql:`SELECT` query looks like this:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 ..  _database-query-builder-select-restrictions:
 
@@ -199,6 +202,8 @@ Create a :sql:`COUNT` query, a typical usage:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // SELECT COUNT(`uid`) FROM `tt_content` WHERE (`bodytext` = 'lorem')
     //     AND ((`tt_content`.`deleted` = 0) AND (`tt_content`.`hidden` = 0)
     //     AND (`tt_content`.`starttime` <= 1669885410)
@@ -208,13 +213,14 @@ Create a :sql:`COUNT` query, a typical usage:
         ->count('uid')
         ->from('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->executeQuery()
         ->fetchOne();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Remarks:
 
@@ -262,17 +268,20 @@ data is to be deleted. Classic usage:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // DELETE FROM `tt_content` WHERE `bodytext` = 'lorem'
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $affectedRows = $queryBuilder
         ->delete('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->executeStatement();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Remarks:
 
@@ -310,18 +319,21 @@ Create an :sql:`UPDATE` query. Typical usage:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
-     // UPDATE `tt_content` SET `bodytext` = 'dolor' WHERE `bodytext` = 'lorem'
+    // use TYPO3\CMS\Core\Database\Connection;
+
+    // UPDATE `tt_content` SET `bodytext` = 'dolor' WHERE `bodytext` = 'lorem'
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $queryBuilder
         ->update('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->set('bodytext', 'dolor')
         ->executeStatement();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 :php:`->update()` requires the table to update as the first argument and a table
 alias (for example, :sql:`t`) as optional second argument. The table alias can
@@ -330,18 +342,21 @@ then be used in :php:`->set()` and :php:`->where()` expressions:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // UPDATE `tt_content` `t` SET `t`.`bodytext` = 'dolor' WHERE `t`.`bodytext` = 'lorem'
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $queryBuilder
         ->update('tt_content', 't')
         ->where(
-            $queryBuilder->expr()->eq('t.bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('t.bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->set('t.bodytext', 'dolor')
         ->executeStatement();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 :php:`->set()` requires a field name as the first argument and automatically
 quotes it internally. The second mandatory argument is the value to set a field
@@ -356,18 +371,21 @@ be used:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // UPDATE `tt_content` SET `bodytext` = `header` WHERE `bodytext` = 'lorem'
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $queryBuilder
         ->update('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR))
         )
         ->set('bodytext', $queryBuilder->quoteIdentifier('header'), false)
         ->executeStatement();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Remarks:
 
@@ -489,8 +507,8 @@ is converted to a string on :php:`->executeQuery()` or
         ->select('uid', 'header', 'bodytext')
         ->from('tt_content')
         ->where(
-            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem')),
-            $queryBuilder->expr()->eq('header', $queryBuilder->createNamedParameter('a name'))
+            $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR)),
+            $queryBuilder->expr()->eq('header', $queryBuilder->createNamedParameter('a name', Connection::PARAM_STR))
         )
         ->orWhere(
             $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('dolor')),
@@ -503,6 +521,7 @@ is converted to a string on :php:`->executeQuery()` or
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Note the parenthesis of the above example: :php:`->andWhere()` encapsulates both
 :php:`->where()` and :php:`->orWhere()` with an additional restriction.
@@ -512,15 +531,18 @@ Argument unpacking can become handy with these methods:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     $whereExpressions = [
-        $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem')),
-        $queryBuilder->expr()->eq('header', $queryBuilder->createNamedParameter('a name'))
+        $queryBuilder->expr()->eq('bodytext', $queryBuilder->createNamedParameter('lorem', Connection::PARAM_STR)),
+        $queryBuilder->expr()->eq('header', $queryBuilder->createNamedParameter('a name', Connection::PARAM_STR))
     ];
     if ($needsAdditionalExpression) {
         $whereExpressions[] = $someAdditionalExpression;
     }
     $queryBuilder->where(...$whereExpressions);
 
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Remarks:
 
@@ -565,6 +587,8 @@ of the table on the right, and the join restriction as fourth argument:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // SELECT `sys_language`.`uid`, `sys_language`.`title`
     // FROM `sys_language`
     // INNER JOIN `pages` `p`
@@ -590,12 +614,13 @@ of the table on the right, and the join restriction as fourth argument:
            $queryBuilder->expr()->eq('p.sys_language_uid', $queryBuilder->quoteIdentifier('sys_language.uid'))
        )
        ->where(
-           $queryBuilder->expr()->eq('p.uid', $queryBuilder->createNamedParameter(42, \PDO::PARAM_INT))
+           $queryBuilder->expr()->eq('p.uid', $queryBuilder->createNamedParameter(42, Connection::PARAM_INT))
        )
        ->executeQuery();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Notes to the example above:
 
@@ -642,6 +667,8 @@ uses the alias of the first join target as left side:
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // SELECT `tt_content_orig`.`sys_language_uid`
     // FROM `tt_content`
     // INNER JOIN `tt_content` `tt_content_orig` ON `tt_content`.`t3_origuid` = `tt_content_orig`.`uid`
@@ -654,9 +681,9 @@ uses the alias of the first join target as left side:
     // GROUP BY `tt_content_orig`.`sys_language_uid`
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('sys_language')
     $constraints = [
-        $queryBuilder->expr()->eq('tt_content.colPos', $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)),
-        $queryBuilder->expr()->eq('tt_content.pid', $queryBuilder->createNamedParameter(42, \PDO::PARAM_INT)),
-        $queryBuilder->expr()->eq('tt_content.sys_language_uid', $queryBuilder->createNamedParameter(2, \PDO::PARAM_INT)),
+        $queryBuilder->expr()->eq('tt_content.colPos', $queryBuilder->createNamedParameter(1, Connection::PARAM_INT)),
+        $queryBuilder->expr()->eq('tt_content.pid', $queryBuilder->createNamedParameter(42, Connection::PARAM_INT)),
+        $queryBuilder->expr()->eq('tt_content.sys_language_uid', $queryBuilder->createNamedParameter(2, Connection::PARAM_INT)),
     ];
     $queryBuilder
         ->select('tt_content_orig.sys_language_uid')
@@ -685,6 +712,7 @@ uses the alias of the first join target as left side:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Further remarks:
 
@@ -795,6 +823,11 @@ Remarks:
 setMaxResults() and setFirstResult()
 ====================================
 
+..  versionchanged:: 13.0
+    Using :php:`->setMaxResults(0)` returns no records.
+    Use :php:`->setMaxResults(null)` instead to get all records (which can be
+    used already with TYPO3 v12 and v11).
+
 Add :sql:`LIMIT` to restrict the number of records and :sql:`OFFSET` for
 pagination of query parts. Both methods should be called only once per
 statement:
@@ -824,38 +857,27 @@ Remarks:
     out the first n records". Internally, :sql:`LIMIT` will be added by
     Doctrine DBAL and set to a very high value.
 
+*   Use :php:`->setMaxResults(null)` to retrieve all results.
+
 
 .. _database-query-builder-add:
 
 add()
 =====
 
-The :php:`->add()` method appends or replaces a single, generic query part. It
-can be used as a low level call when more specific calls do not provide enough
-freedom to express parts of statements:
+..  versionchanged:: 13.0
+    With the upgrade to Doctrine DBAL version 4 this method has been removed.
 
-..  code-block:: php
-    :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
+**Migration:** use the direct methods instead:
 
-    $queryBuilder = $this->connectionPool->getQueryBuilderForTable('sys_language');
-    $queryBuilder
-        ->select('*')
-        ->from('sys_language')
-        ->add('orderBy', 'FIELD(eventtype, 0, 4, 1, 2, 3)');
+..  csv-table:: Replacements
+    :header: "Before", "After"
 
-Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
-a query builder with the connection pool.
-
-Remarks:
-
-*   The first argument is the SQL part. One of: :php:`select`, :php:`from`,
-    :php:`set`, :php:`where`, :php:`groupBy`, :php:`having` or :php:`orderBy`.
-
-*   The second argument is the (properly quoted!) SQL segment of this part.
-
-*   The optional third boolean argument specifies whether the SQL fragment
-    should be appended (:php:`true`) or replace a possibly existing SQL part of
-    this name (:php:`false`, default).
+    ":php:`->add('select', $array)`", ":php:`->select(...$array)`"
+    ":php:`->add('where', $constraints)`", ":php:`->where(...$constraints)`"
+    ":php:`->add('having', $havings)`", ":php:`->having(...$havings)`"
+    ":php:`->add('orderBy', $orderBy)`", ":php:`->orderBy($orderByField, $orderByDirection)->addOrderBy($orderByField2)`"
+    ":php:`->add('groupBy', $groupBy)`", ":php:`->groupBy($groupField)->addGroupBy($groupField2)`"
 
 
 .. _database-query-builder-get-sql:
@@ -956,15 +978,14 @@ Remarks:
 executeQuery() and executeStatement()
 =====================================
 
-..  versionchanged:: 11.5
-    The widely used :php:`->execute()` method has been split into:
+..  versionchanged:: 13.0
+    The :php:`->execute()` method has been removed. Use
 
-    * :php:`->executeQuery()` returning a :php:`\Doctrine\DBAL\Result` instead of
-      a :php:`\Doctrine\DBAL\Statement` and
+    *   :php:`->executeQuery()` returning a :php:`\Doctrine\DBAL\Result` instead
+        of a :php:`\Doctrine\DBAL\Statement` (like the :php:`->execute()`
+        method returned) and
 
-    * :php:`->executeStatement()` returning the number of affected rows.
-
-    The :php:`->execute()` method has been removed with TYPO3 v13.0.
+    *   :php:`->executeStatement()` returning the number of affected rows.
 
 ..  _database-query-builder-execute-query:
 
@@ -1029,6 +1050,7 @@ parts and :sql:`JOIN` expressions:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Remarks:
 
@@ -1047,6 +1069,12 @@ Remarks:
 createNamedParameter()
 ======================
 
+..  versionchanged:: 13.0
+    Doctrine DBAL v4 dropped the support for using the :php:`\PDO::PARAM_*`
+    constants in favor of the enum types. Be aware of this and use
+    :php:`\TYPO3\CMS\Core\Database\Connection\::PARAM_*`, which can already be
+    used in TYPO3 v12 and v11.
+
 This method creates a placeholder for a field value of a prepared statement.
 **Always** use this when dealing with user input in expressions to protect the
 statement from SQL injections:
@@ -1064,13 +1092,14 @@ statement from SQL injections:
         ->where(
             $queryBuilder->expr()->eq(
                 'bodytext',
-                $queryBuilder->createNamedParameter($searchWord)
+                $queryBuilder->createNamedParameter($searchWord, Connection::PARAM_STR)
             )
         )
         ->executeQuery();
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 The above example shows the importance of using :php:`->createNamedParameter()`:
 The search word ``kl'aus`` is "tainted" and would break the query if not
@@ -1150,6 +1179,7 @@ Use integer, integer array:
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 Rules
 -----
@@ -1186,6 +1216,8 @@ Rules
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // DO
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
     $queryBuilder->getRestrictions()->removeAll();
@@ -1195,7 +1227,7 @@ Rules
         ->where(
             $queryBuilder->expr()->eq(
                 'bodytext',
-                $queryBuilder->createNamedParameter($searchWord)
+                $queryBuilder->createNamedParameter($searchWord, Connection::PARAM_STR)
             )
         )
 
@@ -1213,6 +1245,7 @@ Rules
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 .. _database-query-builder-quote-identifier:
 
@@ -1289,6 +1322,8 @@ Helper method to quote `%` characters within a search string. This is helpful in
 ..  code-block:: php
     :caption: EXT:my_extension/Classes/Domain/Repository/MyRepository.php
 
+    // use TYPO3\CMS\Core\Database\Connection;
+
     // SELECT `uid` FROM `tt_content` WHERE (`bodytext` LIKE '%kl\\%aus%')
     $searchWord = 'kl%aus';
     $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tt_content');
@@ -1298,12 +1333,13 @@ Helper method to quote `%` characters within a search string. This is helpful in
         ->where(
             $queryBuilder->expr()->like(
                 'bodytext',
-                $queryBuilder->createNamedParameter('%' . $queryBuilder->escapeLikeWildcards($searchWord) . '%')
+                $queryBuilder->createNamedParameter('%' . $queryBuilder->escapeLikeWildcards($searchWord) . '%', Connection::PARAM_STR)
             )
         );
 
 Read :ref:`how to correctly instantiate <database-query-builder-instantiation>`
 a query builder with the connection pool.
+See available :ref:`parameter types <database-connection-parameter-types>`.
 
 ..  warning::
     Even when using :php:`->escapeLikeWildcards()` the value must be

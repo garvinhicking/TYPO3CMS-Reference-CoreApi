@@ -8,9 +8,9 @@ use TYPO3\CMS\Backend\Module\BeforeModuleCreationEvent;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 
 #[AsEventListener(
-    identifier: 'my-extension/backend/modify-module-icon'
+    identifier: 'my-extension/backend/modify-module-icon',
 )]
-final class MyEventListener
+final readonly class MyEventListener
 {
     public function __invoke(BeforeModuleCreationEvent $event): void
     {
